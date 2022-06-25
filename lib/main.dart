@@ -88,26 +88,52 @@ class Voucher {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<Voucher> vouchers;
+  late Future<List<Voucher>> futureVouchers;
 
   @override
   void initState() {
     super.initState();
-    vouchers = <Voucher>[];
+    futureVouchers = _fetchVouchers();
+  }
 
-    var rng = Random();
-    final totalDummyVouchers = rng.nextInt(5) + 1;
-    for (var i = 0; i < totalDummyVouchers; i++) {
-      vouchers.add(Voucher(description: "test $i"));
-    }
+  Future<List<Voucher>> _fetchVouchers() async {
+    return Future.delayed(const Duration(seconds: 2), () {
+      List<Voucher> vouchers = [];
+
+      var rng = Random();
+      final totalDummyVouchers = rng.nextInt(5) + 1;
+      for (var i = 0; i < totalDummyVouchers; i++) {
+        vouchers.add(Voucher(description: "test $i"));
+      }
+
+      return vouchers;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ListView(
-        padding: const EdgeInsets.all(8),
-        children: vouchers.map(_createVoucherWidget).toList(),
+      child: FutureBuilder<List<Voucher>>(
+        future: futureVouchers,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (!snapshot.hasError && snapshot.hasData) {
+            List<Voucher> vouchers = snapshot.data!;
+            return ListView(
+              padding: const EdgeInsets.all(8),
+              children: vouchers.map(_createVoucherWidget).toList(),
+            );
+          }
+
+          return const Center(
+            child: Text("Something went wrong!"),
+          );
+        }
       ),
     );
   }
