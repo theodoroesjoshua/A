@@ -21,6 +21,9 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       title: "De'Sushi Membership",
       home: Scaffold(
+        appBar: AppBar(
+          title: const Text("De'sushi"),
+        ),
         body: IndexedStack(
           index: _selectedIndex,
           children: _createMainPages(),
