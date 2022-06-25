@@ -112,29 +112,30 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<List<Voucher>>(
-        future: futureVouchers,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (!snapshot.hasError && snapshot.hasData) {
-            List<Voucher> vouchers = snapshot.data!;
-            return ListView(
-              padding: const EdgeInsets.all(8),
-              children: vouchers.map(_createVoucherWidget).toList(),
-            );
-          }
-
+    return FutureBuilder<List<Voucher>>(
+      future: futureVouchers,
+      builder: (context, snapshot) {
+        // Loading vouchers
+        if (snapshot.connectionState != ConnectionState.done) {
           return const Center(
-            child: Text("Something went wrong!"),
+            child: CircularProgressIndicator(),
           );
         }
-      ),
+
+        // Displaying vouchers
+        if (!snapshot.hasError && snapshot.hasData) {
+          List<Voucher> vouchers = snapshot.data!;
+          return ListView(
+            padding: const EdgeInsets.all(8),
+            children: vouchers.map(_createVoucherWidget).toList(),
+          );
+        }
+
+        // Error handling
+        return const Center(
+          child: Text("Something went wrong!"),
+        );
+      },
     );
   }
 
