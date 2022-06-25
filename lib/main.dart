@@ -79,15 +79,43 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+enum VoucherStatus {
+  inactive,
+  active,
+  used,
+  expired,
+}
+
 class Voucher {
+  final String code;
+  final DateTime start;
+  final DateTime end;
   final String description;
+  final VoucherStatus status;
 
   const Voucher({
+    required this.code,
+    required this.start,
+    required this.end,
     required this.description,
+    required this.status,
   });
 }
 
 class _HomePageState extends State<HomePage> {
+  final List<Voucher> _dummyVouchers = [
+    Voucher(code: "ABCD123456789", start: DateTime.now(), end: DateTime.now(),
+        description: "Test 1", status: VoucherStatus.active),
+    Voucher(code: "EFGH123456789", start: DateTime.now(), end: DateTime.now(),
+        description: "Test 2", status: VoucherStatus.inactive),
+    Voucher(code: "IJKL123456789", start: DateTime.now(), end: DateTime.now(),
+        description: "Test 3", status: VoucherStatus.used),
+    Voucher(code: "MNOP123456789", start: DateTime.now(), end: DateTime.now(),
+        description: "Test 4", status: VoucherStatus.expired),
+    Voucher(code: "QRST123456789", start: DateTime.now(), end: DateTime.now(),
+        description: "Test 5", status: VoucherStatus.active),
+  ];
+
   late Future<void> _initVoucherData;
   late List<Voucher> _vouchers;
 
@@ -114,8 +142,9 @@ class _HomePageState extends State<HomePage> {
 
       var rng = Random();
       final totalDummyVouchers = rng.nextInt(5) + 1;
+      _dummyVouchers.shuffle(rng);
       for (var i = 0; i < totalDummyVouchers; i++) {
-        vouchers.add(Voucher(description: "test $i"));
+        vouchers.add(_dummyVouchers[i]);
       }
 
       return vouchers;
