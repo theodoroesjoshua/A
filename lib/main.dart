@@ -88,15 +88,27 @@ class Voucher {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<List<Voucher>> futureVouchers;
+  late Future<void> _initVoucherData;
+  late List<Voucher> _vouchers;
 
   @override
   void initState() {
     super.initState();
-    futureVouchers = _fetchVouchers();
+    _initVoucherData = _initVouchers();
   }
 
-  Future<List<Voucher>> _fetchVouchers() async {
+  Future<void> _initVouchers() async {
+    _vouchers = await _generateDummyVouchers();
+  }
+
+  Future<void> _refreshVouchers() async {
+    final vouchers = await _generateDummyVouchers();
+    setState(() {
+      _vouchers = vouchers;
+    });
+  }
+
+  Future<List<Voucher>> _generateDummyVouchers() async {
     return Future.delayed(const Duration(seconds: 2), () {
       List<Voucher> vouchers = [];
 
@@ -112,8 +124,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Voucher>>(
-      future: futureVouchers,
+    return FutureBuilder<void>(
+      future: _initVoucherData,
       builder: (context, snapshot) {
         // Loading vouchers
         if (snapshot.connectionState != ConnectionState.done) {
@@ -123,11 +135,13 @@ class _HomePageState extends State<HomePage> {
         }
 
         // Displaying vouchers
-        if (!snapshot.hasError && snapshot.hasData) {
-          List<Voucher> vouchers = snapshot.data!;
-          return ListView(
-            padding: const EdgeInsets.all(8),
-            children: vouchers.map(_createVoucherWidget).toList(),
+        if (!snapshot.hasError) {
+          return RefreshIndicator(
+            onRefresh: _refreshVouchers,
+            child: ListView(
+              padding: const EdgeInsets.all(8),
+              children: _vouchers.map(_createVoucherWidget).toList(),
+            ),
           );
         }
 
