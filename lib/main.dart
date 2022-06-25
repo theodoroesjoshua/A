@@ -187,8 +187,37 @@ class _HomePageState extends State<HomePage> {
 
   Widget _createVoucherWidget(Voucher voucher) {
     return Card(
-      color: Colors.amber[600],
-      child: Center(child: Text(voucher.description)),
+      color: Colors.white,
+      child: IntrinsicHeight(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: Colors.red,
+                child: Center(
+                  child: Text(
+                    voucher.description,
+                    style: const TextStyle(color: Colors.white),
+                  )
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text(voucher.description),
+                    Text(voucher.description),
+                    Text(voucher.description),
+                  ],
+                ),
+              ),
+            )
+          ],
+        )
+      ),
     );
   }
 }
