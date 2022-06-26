@@ -115,7 +115,7 @@ class Voucher {
       case VoucherStatus.used:
         return "Sudah Digunakan";
       case VoucherStatus.expired:
-        return "Expired";
+        return "Kadaluarsa";
     }
   }
 }
@@ -216,17 +216,32 @@ class _HomePageState extends State<HomePage> {
 
     return Card(
       color: Colors.white,
+      elevation: 7.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
       child: IntrinsicHeight(
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 1,
               child: Container(
-                color: Colors.red,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    bottomLeft: Radius.circular(25),
+                  ),
+                  color: Colors.red,
+                ),
                 child: Center(
                   child: Text(
                     voucher.description,
-                    style: const TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
