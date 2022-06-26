@@ -65,6 +65,11 @@ class _VoucherWidgetState extends State<VoucherWidget> {
                     ListTile(
                       title: const Text("Kode Voucher:"),
                       subtitle: Text(voucher.code),
+                      trailing: ElevatedButton(
+                        onPressed: (voucher.status == VoucherStatus.active) ?
+                            () {} : null,
+                        child: Text("Claim"),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
