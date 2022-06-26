@@ -192,7 +192,8 @@ class _HomePageState extends State<HomePage> {
             onRefresh: _refreshVouchers,
             child: ListView(
               padding: const EdgeInsets.all(8),
-              children: _vouchers.map(_createVoucherWidget).toList(),
+              children: _vouchers.map((item) => VoucherWidget(voucher: item))
+                   .toList(),
             ),
           );
         }
@@ -204,8 +205,21 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+}
 
-  Widget _createVoucherWidget(Voucher voucher) {
+class VoucherWidget extends StatefulWidget {
+  final Voucher voucher;
+
+  const VoucherWidget({ Key? key, required this.voucher }) : super(key: key);
+
+  @override
+  State<VoucherWidget> createState() => _VoucherWidgetState();
+}
+
+class _VoucherWidgetState extends State<VoucherWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final voucher = widget.voucher;
     double screenWidth = MediaQuery.of(context).size.width;
     DateFormat formatter = DateFormat("d MMMM yyyy");
 
@@ -276,8 +290,8 @@ class _HomePageState extends State<HomePage> {
                               children: <TextSpan>[
                                 const TextSpan(text: 'Status: '),
                                 TextSpan(
-                                  text: voucher.getVoucherStatus(),
-                                  style: const TextStyle(fontWeight: FontWeight.bold)
+                                    text: voucher.getVoucherStatus(),
+                                    style: const TextStyle(fontWeight: FontWeight.bold)
                                 ),
                               ],
                             ),
@@ -290,7 +304,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
-        )
+        ),
       ),
     );
   }
