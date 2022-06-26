@@ -15,7 +15,7 @@ class _VoucherWidgetState extends State<VoucherWidget> {
   @override
   Widget build(BuildContext context) {
     final voucher = widget.voucher;
-    double screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
     DateFormat formatter = DateFormat("d MMMM yyyy");
 
     final smallTextStyle = TextStyle(
