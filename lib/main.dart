@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     voucher.description,
                     style: const TextStyle(color: Colors.white),
-                  )
+                  ),
                 ),
               ),
             ),
@@ -255,10 +255,18 @@ class _HomePageState extends State<HomePage> {
                             "Berlaku Hingga: ${formatter.format(voucher.end)}",
                             style: smallTextStyle,
                           ),
-                          Text(
-                            "Status: ${voucher.getVoucherStatus()}",
-                            style: smallTextStyle,
-                          )
+                          RichText(
+                            text: TextSpan(
+                              style: smallTextStyle,
+                              children: <TextSpan>[
+                                const TextSpan(text: 'Status: '),
+                                TextSpan(
+                                  text: voucher.getVoucherStatus(),
+                                  style: const TextStyle(fontWeight: FontWeight.bold)
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
