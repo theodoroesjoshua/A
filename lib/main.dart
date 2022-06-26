@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
 
 void main() {
@@ -103,20 +104,39 @@ class Voucher {
     required this.description,
     required this.status,
   });
+
+  // Converts status to its string representation
+  String getVoucherStatus() {
+    switch(status) {
+      case VoucherStatus.inactive:
+        return "Belum Aktif";
+      case VoucherStatus.active:
+        return "Aktif";
+      case VoucherStatus.used:
+        return "Sudah Digunakan";
+      case VoucherStatus.expired:
+        return "Expired";
+    }
+  }
 }
 
 class _HomePageState extends State<HomePage> {
   final List<Voucher> _dummyVouchers = [
-    Voucher(code: "ABCD123456789", start: DateTime.now(), end: DateTime.now(),
-        description: "Test 1", status: VoucherStatus.active),
-    Voucher(code: "EFGH123456789", start: DateTime.now(), end: DateTime.now(),
-        description: "Test 2", status: VoucherStatus.inactive),
-    Voucher(code: "IJKL123456789", start: DateTime.now(), end: DateTime.now(),
-        description: "Test 3", status: VoucherStatus.used),
-    Voucher(code: "MNOP123456789", start: DateTime.now(), end: DateTime.now(),
-        description: "Test 4", status: VoucherStatus.expired),
-    Voucher(code: "QRST123456789", start: DateTime.now(), end: DateTime.now(),
-        description: "Test 5", status: VoucherStatus.active),
+    Voucher(code: "ABCD123456789", start: DateTime.now(),
+        end: DateTime.now().add(const Duration(days: 30)),
+        description: "Voucher Rp. 50000", status: VoucherStatus.active),
+    Voucher(code: "EFGH123456789", start: DateTime.now(),
+        end: DateTime.now().add(const Duration(days: 30)),
+        description: "Voucher Rp. 50000", status: VoucherStatus.inactive),
+    Voucher(code: "IJKL123456789", start: DateTime.now(),
+        end: DateTime.now().add(const Duration(days: 30)),
+        description: "Voucher Rp. 50000", status: VoucherStatus.used),
+    Voucher(code: "MNOP123456789", start: DateTime.now(),
+        end: DateTime.now().add(const Duration(days: 30)),
+        description: "Voucher Rp. 50000", status: VoucherStatus.expired),
+    Voucher(code: "QRST123456789", start: DateTime.now(),
+        end: DateTime.now().add(const Duration(days: 30)),
+        description: "Voucher Rp. 50000", status: VoucherStatus.active),
   ];
 
   late Future<void> _initVoucherData;
@@ -186,6 +206,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _createVoucherWidget(Voucher voucher) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    DateFormat formatter = DateFormat("d MMMM yyyy");
+
+    final smallTextStyle = TextStyle(
+      color: Colors.grey[600],
+      fontSize: screenWidth * 0.035,
+    );
+
     return Card(
       color: Colors.white,
       child: IntrinsicHeight(
@@ -205,16 +233,39 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               flex: 3,
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    Text(voucher.description),
-                    Text(voucher.description),
-                    Text(voucher.description),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: ListTile.divideTiles(
+                  context: context,
+                  tiles: <Widget>[
+                    ListTile(
+                      title: const Text("Kode Voucher:"),
+                      subtitle: Text(voucher.code),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Text(
+                            "Berlaku Mulai: ${formatter.format(voucher.start)}",
+                            style: smallTextStyle,
+                          ),
+                          Text(
+                            "Berlaku Hingga: ${formatter.format(voucher.end)}",
+                            style: smallTextStyle,
+                          ),
+                          Text(
+                            "Status: ${voucher.getVoucherStatus()}",
+                            style: smallTextStyle,
+                          )
+                        ],
+                      ),
+                    ),
                   ],
-                ),
+                ).toList(),
               ),
-            )
+            ),
           ],
         )
       ),
