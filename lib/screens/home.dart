@@ -68,28 +68,28 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, snapshot) {
         // Loading vouchers
         if (snapshot.connectionState != ConnectionState.done) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         // Displaying vouchers
         if (!snapshot.hasError) {
-          return RefreshIndicator(
-            onRefresh: _refreshVouchers,
-            child: ListView(
-              padding: const EdgeInsets.all(8),
-              children: _vouchers.map((item) => VoucherWidget(voucher: item))
-                  .toList(),
-            ),
-          );
+          return _createMainWidget();
         }
 
         // Error handling
-        return const Center(
-          child: Text("Something went wrong!"),
-        );
+        return const Center(child: Text("Something went wrong!"));
       },
+    );
+  }
+
+  Widget _createMainWidget() {
+    return RefreshIndicator(
+      onRefresh: _refreshVouchers,
+      child: ListView(
+        padding: const EdgeInsets.all(8),
+        children: _vouchers.map((item) => VoucherWidget(voucher: item))
+            .toList(),
+      ),
     );
   }
 }
