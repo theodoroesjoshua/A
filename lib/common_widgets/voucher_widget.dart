@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../api/api.dart';
 import '../models/voucher.dart';
 
 class VoucherWidget extends StatefulWidget {
@@ -67,8 +68,8 @@ class _VoucherWidgetState extends State<VoucherWidget> {
                       subtitle: Text(voucher.code),
                       trailing: ElevatedButton(
                         onPressed: (voucher.status == VoucherStatus.active) ?
-                            () {} : null,
-                        child: Text("Claim"),
+                            _claimVoucher : null,
+                        child: const Text("Claim"),
                       ),
                     ),
                     Padding(
@@ -107,5 +108,10 @@ class _VoucherWidgetState extends State<VoucherWidget> {
         ),
       ),
     );
+  }
+
+  void _claimVoucher() {
+    final api = Api();
+    api.claimVoucher(widget.voucher.code);
   }
 }
