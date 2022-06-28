@@ -5,14 +5,21 @@ import '../models/voucher.dart';
 
 class VoucherWidget extends StatefulWidget {
   final Voucher voucher;
+  final Function claimCallback;
 
-  const VoucherWidget({ Key? key, required this.voucher }) : super(key: key);
+  const VoucherWidget({
+    Key? key,
+    required this.voucher,
+    required this.claimCallback,
+  }) : super(key: key);
 
   @override
   State<VoucherWidget> createState() => _VoucherWidgetState();
 }
 
 class _VoucherWidgetState extends State<VoucherWidget> {
+  bool _buttonClicked = false;
+
   @override
   Widget build(BuildContext context) {
     final voucher = widget.voucher;
@@ -66,11 +73,7 @@ class _VoucherWidgetState extends State<VoucherWidget> {
                     ListTile(
                       title: const Text("Kode Voucher:"),
                       subtitle: Text(voucher.code),
-                      trailing: ElevatedButton(
-                        onPressed: (voucher.status == VoucherStatus.active) ?
-                            _claimVoucher : null,
-                        child: const Text("Claim"),
-                      ),
+                      trailing: _createClaimButton(),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -110,8 +113,24 @@ class _VoucherWidgetState extends State<VoucherWidget> {
     );
   }
 
+  Widget _createClaimButton() {
+    final widgetChild = const Text("Claim");
+
+    if (widget.voucher.status != VoucherStatus.active || _buttonClicked) {
+      // Returns a disabled button
+      return ElevatedButton(onPressed: null, child: widgetChild);
+    }
+
+    return ElevatedButton(
+      onPressed: _claimVoucher,
+      child: widgetChild,
+    );
+  }
   void _claimVoucher() {
     final api = Api();
-    api.claimVoucher(widget.voucher.code);
+    setState(() { _buttonClicked = true; });
+    api.claimVoucher(widget.voucher.code)
+        .then((value) => widget.claimCallback())
+        .then((value) => setState(() { _buttonClicked = false; }));
   }
 }

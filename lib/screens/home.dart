@@ -63,8 +63,13 @@ class _HomeScreenState extends State<HomeScreen> {
       (item) =>
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: VoucherWidget(voucher: item),
-      )
+        child: VoucherWidget(
+          voucher: item,
+          claimCallback: () => setState(() {
+            _initVoucherData = _refreshVouchers();
+          }),
+        ),
+      ),
     ).toList();
 
     final scrollableWidgets = <Widget>[];
