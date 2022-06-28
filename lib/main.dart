@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sugoi/screens/account_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/history_screen.dart';
 
@@ -35,13 +36,10 @@ class _MainAppState extends State<MainApp> {
   }
 
   List<Widget> _createMainPages() {
-    return <Widget>[
-      const HomeScreen(),
-      const HistoryScreen(),
-      const Icon(
-        Icons.chat,
-        size: 150,
-      ),
+    return const <Widget>[
+      HomeScreen(),
+      HistoryScreen(),
+      AccountScreen(),
     ];
   }
 
