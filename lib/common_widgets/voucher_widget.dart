@@ -19,17 +19,19 @@ class VoucherWidget extends StatefulWidget {
 
 class _VoucherWidgetState extends State<VoucherWidget> {
   bool _buttonClicked = false;
+  final DateFormat formatter;
+
+  late double screenWidth = MediaQuery.of(context).size.width;
+  late TextStyle smallTextStyle = TextStyle(
+    color: Colors.grey[600],
+    fontSize: screenWidth * 0.035,
+  );
+
+  _VoucherWidgetState(): formatter = DateFormat("d MMMM yyyy");
 
   @override
   Widget build(BuildContext context) {
     final voucher = widget.voucher;
-    final screenWidth = MediaQuery.of(context).size.width;
-    DateFormat formatter = DateFormat("d MMMM yyyy");
-
-    final smallTextStyle = TextStyle(
-      color: Colors.grey[600],
-      fontSize: screenWidth * 0.035,
-    );
 
     return Card(
       color: Colors.white,
@@ -79,28 +81,7 @@ class _VoucherWidgetState extends State<VoucherWidget> {
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text(
-                            "Berlaku Mulai: ${formatter.format(voucher.start)}",
-                            style: smallTextStyle,
-                          ),
-                          Text(
-                            "Berlaku Hingga: ${formatter.format(voucher.end)}",
-                            style: smallTextStyle,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              style: smallTextStyle,
-                              children: <TextSpan>[
-                                const TextSpan(text: 'Status: '),
-                                TextSpan(
-                                    text: voucher.getVoucherStatus(),
-                                    style: const TextStyle(fontWeight: FontWeight.bold)
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                        children: _createTextWidgets(),
                       ),
                     ),
                   ],
@@ -113,12 +94,72 @@ class _VoucherWidgetState extends State<VoucherWidget> {
     );
   }
 
-  Widget _createClaimButton() {
-    final widgetChild = const Text("Claim");
+  List<Widget> _createTextWidgets() {
+    if (widget.voucher.status == VoucherStatus.expired) {
+      return <Widget>[
+        Text(
+          "Berakhir pada ${formatter.format(widget.voucher.end)}",
+          style: smallTextStyle,
+        ),
+        _createStatusText(),
+      ];
+    }
+
+    if (widget.voucher.status == VoucherStatus.used
+        && widget.voucher.usedDate != null) {
+      return <Widget>[
+        Text(
+          "Digunakan pada ${formatter.format(widget.voucher.usedDate!)}",
+          style: smallTextStyle,
+        ),
+        _createStatusText(),
+      ];
+    }
+
+    if (widget.voucher.status == VoucherStatus.active
+        || widget.voucher.status == VoucherStatus.inactive) {
+      return <Widget>[
+        Text(
+          "Berlaku Mulai: ${formatter.format(widget.voucher.start)}",
+          style: smallTextStyle,
+        ),
+        Text(
+          "Berlaku Hingga: ${formatter.format(widget.voucher.end)}",
+          style: smallTextStyle,
+        ),
+        _createStatusText(),
+      ];
+    }
+
+    return <Widget>[_createStatusText()];
+  }
+
+  Widget _createStatusText() {
+    return RichText(
+      text: TextSpan(
+        style: smallTextStyle,
+        children: <TextSpan>[
+          const TextSpan(text: 'Status: '),
+          TextSpan(
+              text: widget.voucher.getVoucherStatus(),
+              style: const TextStyle(fontWeight: FontWeight.bold)
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget? _createClaimButton() {
+    if (widget.voucher.status == VoucherStatus.expired
+        || widget.voucher.status == VoucherStatus.used) {
+      return null;
+    }
+
+    const widgetChild = Text("Claim");
 
     if (widget.voucher.status != VoucherStatus.active || _buttonClicked) {
       // Returns a disabled button
-      return ElevatedButton(onPressed: null, child: widgetChild);
+      return const ElevatedButton(onPressed: null, child: widgetChild);
     }
 
     return ElevatedButton(

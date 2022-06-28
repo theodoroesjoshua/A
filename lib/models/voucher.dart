@@ -9,6 +9,7 @@ class Voucher {
   final String code;
   final DateTime start;
   final DateTime end;
+  final DateTime? usedDate;
   final String description;
   final VoucherStatus status;
 
@@ -16,6 +17,7 @@ class Voucher {
     required this.code,
     required this.start,
     required this.end,
+    this.usedDate,
     required this.description,
     required this.status,
   });

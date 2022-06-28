@@ -42,16 +42,18 @@ class Api {
         start: DateTime.now().subtract(const Duration(days: 31)),
         end: DateTime.now().subtract(const Duration(days: 1)),
         description: "Voucher Rp. 50000",
+        usedDate: DateTime.now().subtract(const Duration(days: 2)),
         status: VoucherStatus.used),
     Voucher(code: "AGGT123456789",
-        start: DateTime.now().subtract(const Duration(days: 32)),
-        end: DateTime.now().add(const Duration(days: 2)),
+        start: DateTime.now().subtract(const Duration(days: 33)),
+        end: DateTime.now().subtract(const Duration(days: 3)),
         description: "Voucher Rp. 50000",
         status: VoucherStatus.expired),
     Voucher(code: "TRYY123456789",
         start: DateTime.now().subtract(const Duration(days: 35)),
         end: DateTime.now().subtract(const Duration(days: 5)),
         description: "Voucher Rp. 50000",
+        usedDate: DateTime.now().subtract(const Duration(days: 10)),
         status: VoucherStatus.used),
   ];
 
@@ -80,6 +82,7 @@ class Api {
           code: removedVoucher.code,
           start: removedVoucher.start,
           end: removedVoucher.end,
+          usedDate: DateTime.now(),
           description: removedVoucher.description,
           status: VoucherStatus.used,
         ));   // Insert to the front of the list
