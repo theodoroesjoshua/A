@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/home.dart';
+import 'screens/home_screen.dart';
+import 'screens/history_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -36,10 +37,7 @@ class _MainAppState extends State<MainApp> {
   List<Widget> _createMainPages() {
     return <Widget>[
       const HomeScreen(),
-      const Icon(
-        Icons.camera,
-        size: 150,
-      ),
+      const HistoryScreen(),
       const Icon(
         Icons.chat,
         size: 150,
