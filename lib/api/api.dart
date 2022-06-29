@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../models/customer.dart';
 import '../models/voucher.dart';
 import 'package:collection/collection.dart';
 
@@ -103,16 +104,39 @@ class Api {
     });
   }
 
-  Future<bool> signIn(String username, String password) async {
+  Future<Customer?> signIn(String username, String password) async {
     return Future.delayed(const Duration(seconds: 2), () async {
       if (username != "Yehezkiel" && password != "123456") {
-        return false;
+        return null;
       }
 
       await _storage.write(key: "token", value: "Yehezkiel");
-      return true;
+      return const Customer(
+        firstName: "Yehezkiel R.",
+        lastName: "Theodoroes",
+        phoneNumber: "0898 1111 222",
+        username: "Yehezkiel",
+        email: "yehezkiel@email.com",
+      );
     });
   }
+
+  Future<Customer?> signInToken(String token) async {
+    return Future.delayed(const Duration(seconds: 2), () async {
+      if (token != "Yehezkiel") {
+        return null;
+      }
+
+      return const Customer(
+        firstName: "Yehezkiel R.",
+        lastName: "Theodoroes",
+        phoneNumber: "0898 1111 222",
+        username: "Yehezkiel",
+        email: "yehezkiel@email.com",
+      );
+    });
+  }
+
 
   Future<void> signOut() async {
     await _storage.delete(key: "token");

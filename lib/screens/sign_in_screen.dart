@@ -1,9 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sugoi/api/api.dart';
+import 'package:sugoi/cubit/custome_cubit.dart';
 
+import '../models/customer.dart';
 import 'main_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -168,17 +169,18 @@ class _SignInScreenState extends State<SignInScreen> {
         setState(() {
           _signInLoading = true;
         });
-        bool isSuccess = await _api.signIn(
+        Customer? customer = await _api.signIn(
           _usernameController.text, _passwordController.text
         );
         setState(() {
           _signInLoading = false;
         });
 
-        if (!isSuccess || !mounted) {
+        if (customer == null || !mounted) {
           return;
         }
 
+        BlocProvider.of<CustomerCubit>(context).login(customer);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (builder) => const MainScreen()),

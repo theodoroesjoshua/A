@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sugoi/api/api.dart';
+import 'package:sugoi/cubit/custome_cubit.dart';
+import 'package:sugoi/models/customer.dart';
 
 import '../common_widgets/voucher_widget.dart';
 import '../models/voucher.dart';
@@ -15,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<void> _initVoucherData;
   late List<Voucher> _vouchers;
   final Api _api = Api();
+  Customer? customer;
 
   @override
   void initState() {
@@ -35,6 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<CustomerCubit, Customer?> (
+      buildWhen: (previous, current) => previous != current && current != null,
+      builder: _buildCubit,
+    );
+  }
+
+  Widget _buildCubit(BuildContext context, Customer? customer) {
+    this.customer = customer;
     return FutureBuilder<void>(
       future: _initVoucherData,
       builder: (context, snapshot) {
@@ -115,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: <Widget>[
           const SizedBox(height: 50),
-          Text("0898 1111 222", style: bigTextStyle),
+          Text(customer?.phoneNumber ?? "---", style: bigTextStyle),
           const SizedBox(height: 30),
           Text("$_numberOfActiveVouchers Voucher", style: normalTextStyle),
           Text("Siap Digunakan", style: normalTextStyle),

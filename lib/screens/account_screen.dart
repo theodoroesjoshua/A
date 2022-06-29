@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sugoi/api/api.dart';
+import 'package:sugoi/cubit/custome_cubit.dart';
+import 'package:sugoi/models/customer.dart';
 import 'package:sugoi/screens/sign_in_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -14,18 +17,25 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<CustomerCubit, Customer?>(
+      buildWhen: (previous, current) => previous != current && current != null,
+      builder: _buildCubit,
+    );
+  }
+
+  Widget _buildCubit(BuildContext context, Customer? customer) {
     final screenWidth = MediaQuery.of(context).size.width;
     final profileWidget = ListTile(
       leading: Icon(Icons.account_circle_outlined, size: screenWidth * 0.25),
       title: Transform.translate(
-        offset: Offset(screenWidth * 0.03, screenWidth * 0.04),
-        child: Text("Yehezkiel",
-          style: TextStyle(fontSize: screenWidth * 0.06,)
+        offset: Offset(screenWidth * 0.02, screenWidth * 0.04),
+        child: Text(customer?.name ?? "---",
+          style: TextStyle(fontSize: screenWidth * 0.05,)
         ),
       ),
       subtitle: Transform.translate(
-        offset: Offset(screenWidth * 0.03, screenWidth * 0.04),
-        child: const Text("0898 1111 222"),
+        offset: Offset(screenWidth * 0.02, screenWidth * 0.04),
+        child: Text(customer?.phoneNumber ?? "---"),
       ),
     );
 
