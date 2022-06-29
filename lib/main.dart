@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sugoi/api/api.dart';
@@ -29,6 +30,10 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     checkLogin();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   // This widget is the root of your application.
