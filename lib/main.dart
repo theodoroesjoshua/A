@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sugoi/api/api.dart';
+import 'package:sugoi/cubit/custome_cubit.dart';
+import 'package:sugoi/models/customer.dart';
+import 'package:sugoi/screens/sign_in_screen.dart';
+
+import 'screens/main_screen.dart';
 
 void main() {
-  runApp(MainApp());
+  runApp(const MainApp());
 }
 
 class MainApp extends StatefulWidget {
@@ -12,62 +21,47 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  int _selectedIndex = 0;
+  Widget currentPage = const SignInScreen();
+  final _storage = const FlutterSecureStorage();
+  final _api = Api();
+  Customer? _customer;
 
-  static const List<Widget> _pages = <Widget>[
-    Icon(
-      Icons.call,
-      size: 150,
-    ),
-    Icon(
-      Icons.camera,
-      size: 150,
-    ),
-    Icon(
-      Icons.chat,
-      size: 150,
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    checkLogin();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "De'Sushi Membership",
-      home: Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: _pages,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CustomerCubit>(
+          create: (BuildContext context) => CustomerCubit(_customer),
         ),
-        bottomNavigationBar: _bottomNavigationBar(),
+      ],
+      child: MaterialApp(
+        home: currentPage,
       ),
     );
   }
 
-  Widget _bottomNavigationBar() {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Beranda',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.history),
-          label: 'Riwayat',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Akun',
-        )
-      ],
-      currentIndex: _selectedIndex,
-      onTap: _onItemTapped,
-    );
-  }
+  Future<void> checkLogin() async {
+    String? token = await _storage.read(key: "token");
+    if (token == null) {
+      return;
+    }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    _customer = await _api.signInToken(token);
+    if (_customer != null) {
+      setState(() {
+        currentPage = const MainScreen();
+      });
+    }
   }
 }
