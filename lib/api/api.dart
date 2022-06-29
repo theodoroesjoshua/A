@@ -98,4 +98,14 @@ class Api {
       return _historyVouchers;
     });
   }
+
+  Future<bool> signIn(String username, String password) async {
+    return Future.delayed(const Duration(seconds: 2), () {
+      if (username != "Yehezkiel" && password != "123456") {
+        return false;
+      }
+
+      return true;
+    });
+  }
 }
