@@ -1,3 +1,5 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import '../models/voucher.dart';
 import 'package:collection/collection.dart';
 
@@ -8,6 +10,8 @@ class Api {
     return _api;
   }
   Api._internal();
+
+  final _storage = const FlutterSecureStorage();
 
   final List<Voucher> _availableVouchers = [
     Voucher(code: "IJKL123456789",
@@ -100,12 +104,18 @@ class Api {
   }
 
   Future<bool> signIn(String username, String password) async {
-    return Future.delayed(const Duration(seconds: 2), () {
+    return Future.delayed(const Duration(seconds: 2), () async {
       if (username != "Yehezkiel" && password != "123456") {
         return false;
       }
 
+      await _storage.write(key: "token", value: "Yehezkiel");
       return true;
     });
   }
+
+  Future<void> signOut() async {
+    await _storage.delete(key: "token");
+  }
+
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sugoi/screens/sign_in_screen.dart';
 
 import 'screens/main_screen.dart';
@@ -16,6 +17,7 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   Widget currentPage = const SignInScreen();
+  final _storage = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -32,11 +34,13 @@ class _MainAppState extends State<MainApp> {
   }
 
   Future<void> checkLogin() async {
-    // TODO: Check Login credentials using flutter secure storage
-    if (false) {
-      setState(() {
-        currentPage = const MainScreen();
-      });
+    String? token = await _storage.read(key: "token");
+    if (token != "Yehezkiel") {
+      return;     // Not logged in
     }
+
+    setState(() {
+      currentPage = const MainScreen();
+    });
   }
 }

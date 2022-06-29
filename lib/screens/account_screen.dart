@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sugoi/api/api.dart';
+import 'package:sugoi/screens/sign_in_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -8,6 +10,8 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  final _api = Api();
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -34,7 +38,17 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
         ListTile(
           title: const Text("Keluar"),
-          onTap: () {},
+          onTap: () async {
+            await _api.signOut();
+            if (!mounted) {
+              return;
+            }
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (builder) => const SignInScreen()),
+                  (route) => false,
+            );
+          },
         ),
       ],
     ).toList();
