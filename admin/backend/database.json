@@ -1,0 +1,12 @@
+{
+  "defaultEnv": "local",
+  "local": {
+    "driver": "pg",
+    "user": "me",
+    "password": "password",
+    "host": "localhost",
+    "database": "sugoi",
+    "port": "5432"
+  },
+  "sql-file" : true
+}
