@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 
+// Configure the app to use bodyParser()
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
@@ -10,9 +11,16 @@ app.use(
   })
 )
 
-app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
-})
+// Add routes
+var indexRouter = require('./routes/index')
+var vouchersRouter = require('./routes/vouchers')
+
+const prefix = "/api/v1"
+app.use(prefix, indexRouter)
+app.use(prefix, vouchersRouter)
+
+const db = require('./queries')
+app.get('/vouchers', db.getVouchers)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
