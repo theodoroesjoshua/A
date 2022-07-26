@@ -1,12 +1,14 @@
 {
   "defaultEnv": "local",
   "local": {
+    "driver": "pg"
+  },
+  "prod": {
     "driver": "pg",
-    "user": "me",
-    "password": "password",
-    "host": "localhost",
-    "database": "sugoi",
-    "port": "5432"
+    "user": {"ENV": "PGUSER"},
+    "host": {"ENV": "PGHOST"},
+    "database": {"ENV": "PGDATABASE"},
+    "port": {"ENV": "PGPORT"}
   },
   "sql-file" : true
 }
