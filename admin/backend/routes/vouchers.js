@@ -1,7 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const controller = require('../controllers/voucherController');
+const router = require('express-promise-router')()
+const controller = require('../controllers/voucherController')
 
-router.get('/vouchers', controller.voucher_list);
+router.get('/vouchers', controller.voucher_list)
 
 module.exports = router;

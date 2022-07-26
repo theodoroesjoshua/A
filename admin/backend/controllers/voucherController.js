@@ -8,17 +8,7 @@ const pool = new Pool({
   port: 5432,
 })
 
-// TODO: Make it asynchronous
-exports.voucher_list = (req, res) => {
-  pool.query('SELECT * FROM vouchers', (error, results) => {
-    if (error) {
-      throw error
-    }
-
-    response.status(200).json(results.rows)
-  })
-}
-
-module.exports = {
-  getVouchers,
+exports.voucher_list = async (req, res) => {
+  const { rows } = await pool.query('SELECT * FROM vouchers')
+  res.status(200).json(rows)
 }

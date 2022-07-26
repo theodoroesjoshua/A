@@ -11,16 +11,9 @@ app.use(
   })
 )
 
-// Add routes
-var indexRouter = require('./routes/index')
-var vouchersRouter = require('./routes/vouchers')
-
-const prefix = "/api/v1"
-app.use(prefix, indexRouter)
-app.use(prefix, vouchersRouter)
-
-const db = require('./queries')
-app.get('/vouchers', db.getVouchers)
+// Mount all app's routes
+const mountRoutes = require('./routes')
+mountRoutes(app)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)

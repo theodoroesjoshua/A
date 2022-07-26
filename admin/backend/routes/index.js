@@ -1,9 +1,14 @@
-const express = require('express');
-const router = express.Router();
+const testRouter = require('express-promise-router')()
 
 // Test endpoint
-router.get("/", function(req, res) {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
-});
+testRouter.get("/", function(req, res) {
+  res.json({ info: 'Node.js, Express, and Postgres API' })
+})
 
-module.exports = router;
+const vouchers = require('./vouchers')
+
+const prefix = "/api/v1"
+module.exports = app => {
+  app.use(prefix, testRouter)
+  app.use(prefix, vouchers)
+}
