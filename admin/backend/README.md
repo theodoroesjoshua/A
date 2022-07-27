@@ -1,3 +1,9 @@
+# Running Locally
+
+```
+npm run dev
+```
+
 # Setting Up
 
 ## Installing Postgresql

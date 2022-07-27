@@ -6,9 +6,11 @@ testRouter.get("/", function(req, res) {
 })
 
 const vouchers = require('./vouchers')
+const users = require('./users')
 
 const prefix = "/api/v1"
 module.exports = app => {
   app.use(prefix, testRouter)
   app.use(prefix, vouchers)
+  app.use(prefix, users)
 }

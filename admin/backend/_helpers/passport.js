@@ -10,7 +10,6 @@ module.exports = passport => {
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
       const query = {
-        name: 'get-user',
         text: 'SELECT username, branch, role FROM admins WHERE username = $1',
         values: [jwt_payload.username],
       }
