@@ -12,6 +12,11 @@ app.use(
   })
 )
 
+// Configure passport middleware
+const passport = require("passport");
+app.use(passport.initialize());
+require("./_helpers/passport")(passport);
+
 // Mount all app's routes
 const mountRoutes = require('./routes')
 mountRoutes(app)
