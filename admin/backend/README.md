@@ -72,3 +72,14 @@ As we install db-migrate locally, we might need to replace db-migrate command wi
 node node_modules/db-migrate/bin/db-migrate
 ```
 
+## Seeding DB admins
+
+As we need to encrypt the password for admins, we have to seed them separately through a node js file.
+
+```
+node db/seedUsers.js
+```
+
+The seed file created two users:
+- A superadmin account with username `DeSuperAdmin` and password `12345678`
+- An admin account with username `MksAdmin` and password `12345678`

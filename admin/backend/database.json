@@ -1,7 +1,12 @@
 {
   "defaultEnv": "local",
   "local": {
-    "driver": "pg"
+    "driver": "pg",
+    "user": {"ENV": "PGUSER"},
+    "host": {"ENV": "PGHOST"},
+    "database": {"ENV": "PGDATABASE"},
+    "password": {"ENV": "PGPASSWORD"},
+    "port": {"ENV": "PGPORT"}
   },
   "prod": {
     "driver": "pg",

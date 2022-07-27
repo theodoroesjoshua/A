@@ -62,16 +62,15 @@ INSERT INTO customers (name, email, phone)
   ('George', 'george@example.com', '11112222333');
 
 INSERT INTO admins (username, hash_password, branch, role)
-  VALUES ('DeSuperAdmin', '12345678', 'Makassar', 'Superadmin'),
-  ('MakassarAdmin', '12345678', 'Makassar', 'Admin');
+  VALUES ('MakassarAdmin', '12345678', 'Makassar', 'Admin');
 
 INSERT INTO vouchers(code, start_date, end_date, status, branch, customer_id, issuer_id,
   issue_receipt_id, issue_receipt_price)
-  VALUES ('IJKL123456789', '12-07-2022', '12-08-2022', 'Active', 'Makassar', 1, 2, 'RECEIPTA', 100000);
+  VALUES ('IJKL123456789', '12-07-2022', '12-08-2022', 'Active', 'Makassar', 1, 1, 'RECEIPTA', 100000);
 
 INSERT INTO vouchers(code, start_date, end_date, claimed_date, status, branch, customer_id, issuer_id,
   issue_receipt_id, issue_receipt_price, claimer_id, claim_receipt_id, claim_receipt_price)
-  VALUES ('RJTJ123456789', '11-07-2022', '11-08-2022', '12-07-2022', 'Used', 'Makassar', 1, 2, 'RECEIPTB', 100000,
-    2, 'RECEIPTC', 100000),
-  ('AGGT123456789', '11-06-2022', '11-07-2022', NULL, 'Expired', 'Makassar', 1, 2, 'RECEIPTD', 100000,
-    2, 'RECEIPTE', 100000);
+  VALUES ('RJTJ123456789', '11-07-2022', '11-08-2022', '12-07-2022', 'Used', 'Makassar', 1, 1, 'RECEIPTB', 100000,
+    1, 'RECEIPTC', 100000),
+  ('AGGT123456789', '11-06-2022', '11-07-2022', NULL, 'Expired', 'Makassar', 1, 1, 'RECEIPTD', 100000,
+    1, 'RECEIPTE', 100000);
