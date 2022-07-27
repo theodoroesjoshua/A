@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 // POST /user/authenticate
 exports.user_authenticate = async function(req, res) {
   const { username, password } = req.body
-  console.log(username)
   const query = {
     text: 'SELECT username, hash_password, branch, role FROM admins WHERE username = $1',
     values: [username],
