@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('module-alias/register')
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
@@ -15,10 +16,10 @@ app.use(
 // Configure passport middleware
 const passport = require("passport");
 app.use(passport.initialize());
-require("./_helpers/passport")(passport);
+require("@helpers/passport")(passport);
 
 // Mount all app's routes
-const mountRoutes = require('./routes')
+const mountRoutes = require('@routes')
 mountRoutes(app)
 
 app.listen(port, () => {

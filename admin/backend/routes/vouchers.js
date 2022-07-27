@@ -1,6 +1,7 @@
 const router = require('express-promise-router')()
-const controller = require('../controllers/voucherController')
-const passport = require("passport");
+const controller = require('@controllers/voucherController')
+const passport = require("passport")
+const role = require('@helpers/role')
 
 function ensureActiveAccount(req, res, next) {
   if (req.user.role !== role.deactivated)
