@@ -1,12 +1,16 @@
 import React from "react";
 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HomePage } from './HomePage';
 
 export default class App extends React.Component {
   render() {
     return (
-      // TODO: Implement Routing
-      <HomePage />
+      <Router>
+        <Routes>
+          <Route exact path='/' element={<HomePage />}></Route>
+        </Routes>
+      </Router>
     );
   }
 }
