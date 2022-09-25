@@ -5,6 +5,11 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = 3100
 
+// Enabler cross-origin resource sharing for API only backend
+// TODO: Cors should be limited to the frontend's domain
+var cors = require('cors');
+app.use(cors());
+
 // Configure the app to use bodyParser()
 app.use(bodyParser.json())
 app.use(
