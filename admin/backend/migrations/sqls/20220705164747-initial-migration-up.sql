@@ -15,6 +15,19 @@ CREATE TABLE admins (
   role VARCHAR(50) NOT NULL
 );
 
+CREATE TYPE RECEIPT_TYPE AS ENUM ('Issue', 'Claim');
+
+CREATE TABLE receipts (
+  id VARCHAR(30) PRIMARY KEY,
+  price NUMERIC(15, 5) NOT NULL,
+  type RECEIPT_TYPE NOT NULL,
+
+  admin_id INT NOT NULL,
+  CONSTRAINT fk_admin
+    FOREIGN KEY(admin_id)
+      REFERENCES admins(id)
+);
+
 CREATE TABLE vouchers (
   code INT NOT NULL,
   start_date TEXT NOT NULL,
