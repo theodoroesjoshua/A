@@ -25,8 +25,12 @@ CREATE TABLE receipts (
   admin_id INT NOT NULL,
   CONSTRAINT fk_admin
     FOREIGN KEY(admin_id)
-      REFERENCES admins(id)
+      REFERENCES admins(id),
+
+  created_at TIMESTAMPTZ NOT NULL
 );
+
+CREATE INDEX receipts_created_at_idx ON receipts(created_at);
 
 CREATE TABLE vouchers (
   code INT NOT NULL,
@@ -71,10 +75,10 @@ INSERT INTO customers (name, email, phone)
 INSERT INTO admins (username, hash_password, branch, role)
   VALUES ('MakassarAdmin', '12345678', 'Makassar', 'Admin');
 
-INSERT INTO receipts(id, price, type, admin_id)
-  VALUES ('RECEIPTA', 100000.00, 'Issue', 1),
-  ('RECEIPTB', 100000.00, 'Claim', 1),
-  ('RECEIPTC', 50000.00, 'Issue', 1);
+INSERT INTO receipts(id, price, type, admin_id, created_at)
+  VALUES ('RECEIPTA', 100000.00, 'Issue', 1, '11-09-2022 10:23:54+07'),
+  ('RECEIPTB', 100000.00, 'Claim', 1, '12-07-2022 10:23:54+07'),
+  ('RECEIPTC', 50000.00, 'Issue', 1, '11-06-2022 09:23:54+07');
 
 INSERT INTO vouchers(code, start_date, end_date, status, branch, customer_id, issue_receipt_id)
   VALUES (1, '12-09-202 10:23:54+07', '12-10-2022 10:23:54+07', 'Active', 'Makassar', 1, 'RECEIPTA'),
