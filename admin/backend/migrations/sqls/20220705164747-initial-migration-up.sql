@@ -30,9 +30,9 @@ CREATE TABLE receipts (
 
 CREATE TABLE vouchers (
   code INT NOT NULL,
-  start_date TEXT NOT NULL,
-  end_date TEXT NOT NULL,
-  claimed_date TEXT,
+  start_date TIMESTAMPTZ NOT NULL,
+  end_date TIMESTAMPTZ NOT NULL,
+  claimed_date TIMESTAMPTZ,
   status VARCHAR(30) NOT NULL,
   branch VARCHAR(100) NOT NULL,
 
@@ -76,9 +76,9 @@ INSERT INTO receipts(id, price, type, admin_id)
   ('RECEIPTC', 50000.00, 'Issue', 1);
 
 INSERT INTO vouchers(code, start_date, end_date, status, branch, customer_id, issue_receipt_id)
-  VALUES (1, '12-09-2022', '12-10-2022', 'Active', 'Makassar', 1, 'RECEIPTA'),
-  (2, '11-06-2022', '11-07-2022', 'Expired', 'Makassar', 1, 'RECEIPTC');
+  VALUES (1, '12-09-202 10:23:54+07', '12-10-2022 10:23:54+07', 'Active', 'Makassar', 1, 'RECEIPTA'),
+  (2, '11-06-2022 10:23:54+07', '11-07-2022 10:23:54+07', 'Expired', 'Makassar', 1, 'RECEIPTC');
 
 INSERT INTO vouchers(code, start_date, end_date, claimed_date, status, branch, customer_id,
   issue_receipt_id, claim_receipt_id)
-  VALUES (3, '11-09-2022', '11-10-2022', '12-07-2022', 'Used', 'Makassar', 1, 'RECEIPTA', 'RECEIPTB');
+  VALUES (3, '11-09-2022 10:23:54+07', '11-10-2022 10:23:54+07', '12-07-2022 10:23:54+07', 'Used', 'Makassar', 1, 'RECEIPTA', 'RECEIPTB');
