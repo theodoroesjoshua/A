@@ -5,7 +5,7 @@ CREATE TABLE customers (
   phone VARCHAR(30) NOT NULL UNIQUE
 );
 
-CREATE INDEX name_idx ON customers(name);
+CREATE INDEX customers_name_idx ON customers(name);
 
 CREATE TABLE admins (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -30,6 +30,7 @@ CREATE TABLE receipts (
   created_at TIMESTAMPTZ NOT NULL
 );
 
+CREATE INDEX receipts_admin_id_idx ON receipts(admin_id);
 CREATE INDEX receipts_created_at_idx ON receipts(created_at);
 
 CREATE TABLE vouchers (
@@ -58,14 +59,14 @@ CREATE TABLE vouchers (
       REFERENCES receipts(id)
 );
 
-CREATE INDEX start_date_idx ON vouchers(start_date);
-CREATE INDEX end_date_idx ON vouchers(end_date);
-CREATE INDEX claimed_date_idx ON vouchers(claimed_date);
-CREATE INDEX status_idx ON vouchers(status);
-CREATE INDEX branch_idx ON vouchers(branch);
-CREATE INDEX customer_id_fkey ON vouchers(customer_id);
-CREATE INDEX issue_receipt_id_fkey ON vouchers(issue_receipt_id);
-CREATE INDEX claim_receipt_id_fkey ON vouchers(claim_receipt_id);
+CREATE INDEX vouchers_start_date_idx ON vouchers(start_date);
+CREATE INDEX vouchers_end_date_idx ON vouchers(end_date);
+CREATE INDEX vouchers_claimed_date_idx ON vouchers(claimed_date);
+CREATE INDEX vouchers_status_idx ON vouchers(status);
+CREATE INDEX vouchers_branch_idx ON vouchers(branch);
+CREATE INDEX vouchers_customer_id_fkey ON vouchers(customer_id);
+CREATE INDEX vouchers_issue_receipt_id_fkey ON vouchers(issue_receipt_id);
+CREATE INDEX vouchers_claim_receipt_id_fkey ON vouchers(claim_receipt_id);
 
 /* TODO: Remove seed data before production */
 INSERT INTO customers (name, email, phone)
