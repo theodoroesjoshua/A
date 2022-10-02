@@ -16,8 +16,7 @@ CREATE TABLE admins (
 );
 
 CREATE TABLE vouchers (
-  id SERIAL PRIMARY KEY,
-  code VARCHAR(20) NOT NULL UNIQUE,
+  code INT NOT NULL,
   start_date TEXT NOT NULL,
   end_date TEXT NOT NULL,
   claimed_date TEXT,
@@ -28,6 +27,8 @@ CREATE TABLE vouchers (
   CONSTRAINT fk_customer
     FOREIGN KEY(customer_id)
       REFERENCES customers(id),
+
+  PRIMARY KEY(customer_id, code),
 
   /* Voucher Issuance Properties */
   issuer_id INT NOT NULL,
@@ -66,11 +67,11 @@ INSERT INTO admins (username, hash_password, branch, role)
 
 INSERT INTO vouchers(code, start_date, end_date, status, branch, customer_id, issuer_id,
   issue_receipt_id, issue_receipt_price)
-  VALUES ('IJKL123456789', '12-07-2022', '12-08-2022', 'Active', 'Makassar', 1, 1, 'RECEIPTA', 100000);
+  VALUES (1, '12-07-2022', '12-08-2022', 'Active', 'Makassar', 1, 1, 'RECEIPTA', 100000);
 
 INSERT INTO vouchers(code, start_date, end_date, claimed_date, status, branch, customer_id, issuer_id,
   issue_receipt_id, issue_receipt_price, claimer_id, claim_receipt_id, claim_receipt_price)
-  VALUES ('RJTJ123456789', '11-07-2022', '11-08-2022', '12-07-2022', 'Used', 'Makassar', 1, 1, 'RECEIPTB', 100000,
+  VALUES (2, '11-07-2022', '11-08-2022', '12-07-2022', 'Used', 'Makassar', 1, 1, 'RECEIPTB', 100000,
     1, 'RECEIPTC', 100000),
-  ('AGGT123456789', '11-06-2022', '11-07-2022', NULL, 'Expired', 'Makassar', 1, 1, 'RECEIPTD', 100000,
+  (3, '11-06-2022', '11-07-2022', NULL, 'Expired', 'Makassar', 1, 1, 'RECEIPTD', 100000,
     1, 'RECEIPTE', 100000);
