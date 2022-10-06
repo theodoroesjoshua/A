@@ -84,7 +84,7 @@ INSERT INTO receipts(id, price, type, admin_id, created_at)
   ('RECEIPTC', 50000.00, 'Issue', 1, '11-06-2022 09:23:54+07');
 
 INSERT INTO vouchers(code, start_date, end_date, status, branch, customer_id, issue_receipt_id)
-  VALUES (1, '12-09-202 10:23:54+07', '12-10-2022 10:23:54+07', 'Active', 'Makassar', 'a35bc903-bb03-4a6a-a3ea-94d6135d603c', 'RECEIPTA'),
+  VALUES (1, '12-09-2022 10:23:54+07', '12-10-2022 10:23:54+07', 'Active', 'Makassar', 'a35bc903-bb03-4a6a-a3ea-94d6135d603c', 'RECEIPTA'),
   (2, '11-06-2022 10:23:54+07', '11-07-2022 10:23:54+07', 'Expired', 'Makassar', 'a35bc903-bb03-4a6a-a3ea-94d6135d603c', 'RECEIPTC');
 
 INSERT INTO vouchers(code, start_date, end_date, claimed_date, status, branch, customer_id, issue_receipt_id, claim_receipt_id)
