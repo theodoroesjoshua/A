@@ -53,7 +53,7 @@ class NavbarComponent extends React.Component {
       <div>
         <Nav>
           <NavLogo>
-            <NavLink to ='/' exact activeStyle> Desushi Admin Dashboard </NavLink>
+            <NavLink to ='/'> Desushi Admin Dashboard </NavLink>
           </NavLogo>
 
           {button}

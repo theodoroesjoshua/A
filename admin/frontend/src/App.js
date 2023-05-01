@@ -3,8 +3,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HomePage } from './HomePage';
 import { LoginPage } from './LoginPage';
-import { Navbar } from "./_components/Navbar";
-import { history } from "./_helpers";
+import { VouchersPage } from './VouchersPage';
+import { Navbar } from './_components/Navbar';
+import { history } from './_helpers';
 
 export default class App extends React.Component {
   render() {
@@ -14,6 +15,7 @@ export default class App extends React.Component {
         <Routes>
           <Route exact path='/' element={<HomePage />}></Route>
           <Route exact path='/login' element={<LoginPage />}></Route>
+          <Route exact path='/vouchers' element={<VouchersPage />}></Route>
         </Routes>
       </Router>
     );
