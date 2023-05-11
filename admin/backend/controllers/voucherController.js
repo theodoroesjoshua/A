@@ -14,7 +14,6 @@ ORDER BY start_date DESC
 OFFSET $1 LIMIT $2;`
 
 exports.voucher_list = async (req, res) => {
-
   const limit = req.query.limit ?? DEFAULT_LIMIT
   const offset = req.query.offset ?? DEFAULT_OFFSET
 
@@ -27,4 +26,14 @@ exports.voucher_list = async (req, res) => {
   const { rows } = await db.query(query)
 
   res.status(200).json(rows)
+}
+
+exports.voucher_issue = async (req, res) => {
+  // TODO: Parse request's phone number, create or find user from that
+  // TODO: Parse request's receipt, create or find receipt from that
+  // TODO: Create X amount of vouchers based on the receipt's value
+
+  const success_message = 'Berhasil membuat 5 voucher baru untuk nomor 000011112222. ' +
+      'Pengguna secara keseluruhan memiliki 5 voucher dari transaksi RECEIPTA';
+  res.status(200).json({"message": success_message})
 }

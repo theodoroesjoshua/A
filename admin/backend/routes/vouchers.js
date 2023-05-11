@@ -13,4 +13,7 @@ function ensureActiveAccount(req, res, next) {
 router.get('/vouchers', passport.authenticate('jwt', { session: false }),
     ensureActiveAccount, controller.voucher_list)
 
+router.post('/voucher/issue', passport.authenticate('jwt', { session: false }),
+    ensureActiveAccount, controller.voucher_issue)
+
 module.exports = router;
